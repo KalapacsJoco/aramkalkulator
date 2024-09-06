@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Áram kalkulátor</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #formContainer {
+            width: 75vw;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .inputField {
+            width: 50px;
+        }
+
+        .formRow {
+            display: flex;
+            justify-content:space-between;
+        }
+
+        #infoContainer {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <form id="formContainer">
+        <div class="formRow">
+            <label for="consumed">Fogyasztott kwH</label>
+            <input type="number" class="inputField" id="consumed" name="consumed">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 .83 1.65 1.65 0 0 1-2.92 0 1.65 1.65 0 0 0-1-.83 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-.83-1 1.65 1.65 0 0 1 0-2.92 1.65 1.65 0 0 0 .83-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-.83 1.65 1.65 0 0 1 2.92 0 1.65 1.65 0 0 0 1 .83 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 .83 1h0a1.65 1.65 0 0 1 0 2.92 1.65 1.65 0 0 0-.83 1z"></path>
+              </svg>
+              
+        </div>
+        <div class="formRow">
+            <label for="delivered">Leadott kwH</label>
+            <input type="number" class="inputField" id="delivered" name="delivered">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 .83 1.65 1.65 0 0 1-2.92 0 1.65 1.65 0 0 0-1-.83 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-.83-1 1.65 1.65 0 0 1 0-2.92 1.65 1.65 0 0 0 .83-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-.83 1.65 1.65 0 0 1 2.92 0 1.65 1.65 0 0 0 1 .83 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 .83 1h0a1.65 1.65 0 0 1 0 2.92 1.65 1.65 0 0 0-.83 1z"></path>
+              </svg>
+              
+ 
+        </div>
+        <button id="calculateButton">Számolj</button>
+
+
+    </form>
+
+    <div id="infoContainer">
+        <div class="formRow">
+            <div>Különbség:</div>
+            <span id="difference"></span>
+        </div>
+        <div class="formRow">
+            <div>Arány:</div>
+            <span id="ratio"></span>
+        </div>
+        <div class="formRow">
+            <div>Fogyasztott áram összege:</div>
+            <span id="buyPriceCalculated"></span>
+        </div>
+        <div class="formRow">
+            <div>Leadott áram összege:</div>
+            <span id="sellPriceCalculated"></span>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector("#calculateButton").addEventListener('click', function(event){
+            event.preventDefault(); // Prevent the page from refreshing
+
+        
+            let formContainer = document.querySelector("#formContainer");
+            let infoContainer = document.querySelector("#infoContainer");
+            let consumed = document.querySelector("#consumed").value;
+            let delivered = document.querySelector("#delivered").value;
+            let difference = document.querySelector("#difference");
+            let ratio = document.querySelector("#ratio");
+            let buyPriceCalculated = document.querySelector("#buyPriceCalculated");
+
+            let buyPrice = 0.8;
+            let sellPrice = 0.3;
+
+            formContainer.style.display ="none"
+            infoContainer.style.display ="block"
+            difference.textContent = delivered - consumed + "kwH";
+            ratio.textContent = delivered / consumed;
+            buyPriceCalculated.textContent = consumed * buyPrice + " Ron";
+    
+
+        });
+    </script>
+    
+
+    
+</body>
+</html>
